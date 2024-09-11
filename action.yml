@@ -23,6 +23,9 @@ inputs:
     description: 'set to "true" to enable debug mode'
     default: "false"
     required: false
+  GITHUB_REF:
+    description: "The git branch to mirror"
+    required: false
 
 
 runs:
