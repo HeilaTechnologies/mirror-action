@@ -1,0 +1,30 @@
+name: mirror-repository
+description: Automate mirroring of git commits to or from a remote repository, like GitLab, Bitbucket, or another GitHub repository
+branding:
+  icon: git-commit
+  color: green
+
+inputs:
+  REMOTE:
+    description: "The remote repository e.g. https://github.com/octocat/foo.git or git@github.com:octocat/foo.git"
+    required: false
+  GIT_ACCESS_TOKEN:
+    description: "The git access token for the remote repository"
+    required: false
+  PUSH_ALL_REFS:
+    description: "Push all refs instead of just the current branch"
+    default: "true"
+    required: false
+  GIT_PUSH_ARGS:
+    description: "The arugments to use when pushing the repository"
+    default: '--tags --force --prune'
+    required: false
+  DEBUG:
+    description: 'set to "true" to enable debug mode'
+    default: "false"
+    required: false
+
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
