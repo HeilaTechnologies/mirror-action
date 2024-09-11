@@ -38,17 +38,16 @@ fi
 
 git remote add mirror "${REMOTE}"
 if [[ "${INPUT_PUSH_ALL_REFS}" != "false" ]]; then
-    echo "this is where the testing starts"
-    echo "\"refs/remotes/origin/*:refs/heads/*\""
-    echo "\"refs/remotes/origin/*:refs/heads/${INPUT_GITHUB_REF}\""
-    echo ${INPUT_GITHUB_REF}
-    eval git push ${GIT_PUSH_ARGS} mirror "\"refs/remotes/origin/*:refs/heads/${INPUT_GITHUB_REF}\""
+    eval git push ${GIT_PUSH_ARGS} mirror "\"refs/remotes/origin/*:refs/heads/*\""
 else
-    echo "I am surprised we are here"
     if [[ "${HAS_CHECKED_OUT}" != "true" ]]; then
         echo "FATAL: You must upgrade to using actions inputs instead of args: to push a single branch" > /dev/stderr
         exit 1
     else
-        eval git push -u ${GIT_PUSH_ARGS} mirror "\"refs/remotes/origin/*:refs/heads/${INPUT_GITHUB_REF}\""
+        if [[ "${INPUT_GITHUB_REF}" != "" ]]; then
+            eval git push -u ${GIT_PUSH_ARGS} mirror refs/heads/"${INPUT_GITHUB_REF}"
+        else
+            eval git push -u ${GIT_PUSH_ARGS} mirror "${GITHUB_REF}"
+        fi
     fi
 fi
